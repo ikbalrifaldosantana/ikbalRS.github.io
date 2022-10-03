@@ -68,10 +68,12 @@
             <div class="row justify-content-center fs-5 text-center">
                 <div class="col-md-4">
                     <p>HELLO Nama saya ikbal rifaldo santana, umur 21 tahun, saya seorang mahasiswa di
-                      UNIVERSITAS INDRAPRASTA PGRI, hobi saya bermain game dan bulu tangkis</p>
+                      UNIVERSITAS INDRAPRASTA PGRI, saya tinggal di daerah penggilingan jakarta timur hobi saya bermain game, mengedit vidio dan bulu tangkis</p>
                 </div>
                 <div class="col-md-4">
-                    <p>saya tinggal di daerah cakung, saya anak ketiga dari 3 sodara saya </p>
+                    <p>saya lulusan S1 UNIVERSITAS INDRAPRASTA PGRI. Memiliki pengalaman magang di suatu perusahaan
+                      di jakarta selama 6 bulan, saya adalah orang yang bertanggung jawab dan dapat di andalkan. Mencari
+                    kerja untuk semakin berkembang dan bertumbuh bersama () </p>
                     
                 </div>
         </div>
@@ -144,20 +146,35 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <form>
+
+            <div class="alert alert-success alert-dismissible fade show d-none my-alert" role="alert">
+              <strong>Terimakasih!</strong> pesan yang anda kirim sudah kami terima
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <form name="ikbal-contact-form">
               <div class="mb-3">
                 <label for="name" class="form-label">nama lengkap</label>
-                <input type="text" class="form-control" id="name" aria-describedby="name">
+                <input type="text" class="form-control" id="nama" aria-describedby="name" name="nama">
+              </div>
+              <div class="mb-3">
+                <label for="telepon" class="form-label">telepon</label>
+                <input type="tel" class="form-control" id="telepon" aria-describedby="telepon" name="telepon">
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" aria-describedby="email">
+                <input type="email" class="form-control" id="email" aria-describedby="email" name="email">
               </div>
               <div class="mb-3">
                 <label for="pesan" class="form-label">pesan</label>
-                <textarea class="form-control" id="pesan" rows="3"></textarea>
+                <textarea class="form-control" id="pesan" rows="3" name="pesan"></textarea>
               </div>
-              <button type="submit" class="btn btn-primary">kirim</button>
+              <button type="submit" class="btn btn-primary btn-kirim">kirim</button>
+              
+              <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
             </form>
           </div>
         </div>
@@ -173,5 +190,33 @@
     <!-- akhir footer -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbyHbD3Y8Ei6paxcUSEMrwaQmrw8Nt1XQnTVPY7rGbqgDerq6bpeNvgj-XYBZdGKHyBN/exec'
+      const form = document.forms['ikbal-contact-form']
+      const btnKirim = document.querySelector('.btn-kirim')
+      const btnLoading = document.querySelector('.btn-loading')
+      const myAlert = document.querySelector('.my-alert')
+
+    
+      form.addEventListener('submit', e => {
+        e.preventDefault()
+        // ketika tombol submit di klik
+        // tampilkan tombol loading,hilangkan tombol kirim
+        btnLoading.classList.toggle('d-none')
+        btnKirim.classList.toggle('d-none')
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        // tampilkan tombol loading,hilangkan tombol loading
+          .then(response => {
+            btnLoading.classList.toggle('d-none')
+            btnKirim.classList.toggle('d-none')
+            // tampilkan alert
+            myAlert.classList.toggle('d-none')
+            // reset form nya
+            form.reset()
+            console.log('Success!', response)
+        })
+          .catch(error => console.error('Error!', error.message))
+      })
+    </script>
   </body>
 </html>
